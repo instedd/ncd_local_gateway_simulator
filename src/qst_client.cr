@@ -1,0 +1,120 @@
+require "http/client"
+require "xml"
+
+class QSTClient
+  class Error < Exception; end
+
+  def initialize(
+                 @host = "nuntium-stg.instedd.org",
+                 @port = 80,
+                 @tls = false,
+                 *,
+                 account : String,
+                 @channel_name : String,
+                 @channel_password : String)
+    @account = URI.escape(account)
+  end
+
+  def get_last_message_id
+    with_client do |client|
+      response = client.head("/#{@account}/qst/outgoing")
+      check_response(response, "get_last_message_id")
+      fetch_etag(response)
+    end
+  end
+
+  def push(*, id : String, from : String, to : String, body : String)
+    push(Message.new(id, from, to, body))
+  end
+
+  def push(message : Message)
+    push([message])
+  end
+
+  def push(messages : Array(Message))
+    return if messages.empty?
+
+    xml = to_xml(messages)
+    with_client do |client|
+      response = client.post("/#{@account}/qst/incoming.xml",
+        body: xml,
+        headers: HTTP::Headers{"Content-Type" => "text/xml"})
+      check_response(response, "push")
+      fetch_etag(response)
+    end
+  end
+
+  def pull(etag = nil)
+    headers = HTTP::Headers.new
+    headers["If-None-Match"] = etag if etag
+
+    with_client do |client|
+      response = client.get("/#{@account}/qst/outgoing.xml", headers: headers)
+
+      # Check Not-Modified
+      if response.status_code == 304
+        return [] of Message
+      end
+
+      check_response(response, "pull")
+      from_xml(response)
+    end
+  end
+
+  private def to_xml(messages)
+    String.build do |str|
+      str.puts %(<?xml version="1.0" encoding="utf-8"?>)
+      str.puts %(<messages>)
+      messages.each do |msg|
+        str << "  <message"
+        append_attribute(str, "id", msg.id)
+        append_attribute(str, "from", msg.from)
+        append_attribute(str, "to", msg.to)
+        str << ">"
+        str.puts
+        str << "    <text>" << XML.escape(msg.body) << "</text>"
+        str.puts
+        str.puts "  </message>"
+      end
+      str.puts %(</messages>)
+    end
+  end
+
+  private def append_attribute(io, name, value)
+    io << " " << name << "=\"" << XML.escape(value) << "\""
+  end
+
+  private def from_xml(response)
+    doc = XML.parse(response.body)
+    messages = doc.first_element_child.not_nil!
+    messages.children.select(&.element?).map do |message|
+      Message.new(
+        id: message["id"].not_nil!,
+        from: message["from"].not_nil!,
+        to: message["to"].not_nil!,
+        body: message.children.find { |c| c.element? && c.name == "text" }.not_nil!.text.not_nil!
+      )
+    end
+  end
+
+  private def fetch_etag(response)
+    etag = response.headers["Etag"]?
+    return nil unless etag
+
+    etag.empty? ? nil : etag
+  end
+
+  private def check_response(response, msg)
+    unless response.success?
+      response.to_io(STDOUT)
+      raise Error.new("Got #{response.status_code} in #{msg}")
+    end
+  end
+
+  private def with_client
+    HTTP::Client.new(host: @host, port: @port, tls: @tls) do |client|
+      client.basic_auth(@channel_name, @channel_password)
+      yield client
+    end
+  end
+end
