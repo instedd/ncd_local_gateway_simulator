@@ -51,5 +51,7 @@ loop do
     state.save
   end
 
-  sleep sleep_seconds
+  if messages.empty?
+    sleep sleep_seconds
+  end
 end
