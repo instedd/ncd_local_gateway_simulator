@@ -49,7 +49,7 @@ class QSTClient
     headers["If-None-Match"] = etag if etag
 
     with_client do |client|
-      response = client.get("/#{@account}/qst/outgoing.xml", headers: headers)
+      response = client.get("/#{@account}/qst/outgoing.xml?max=100", headers: headers)
 
       # Check Not-Modified
       if response.status_code == 304
