@@ -62,26 +62,17 @@ class QSTClient
   end
 
   private def to_xml(messages)
-    String.build do |str|
-      str.puts %(<?xml version="1.0" encoding="utf-8"?>)
-      str.puts %(<messages>)
-      messages.each do |msg|
-        str << "  <message"
-        append_attribute(str, "id", msg.id)
-        append_attribute(str, "from", msg.from)
-        append_attribute(str, "to", msg.to)
-        str << ">"
-        str.puts
-        str << "    <text>" << XML.escape(msg.body) << "</text>"
-        str.puts
-        str.puts "  </message>"
+    XML.build(indent: 2) do |xml|
+      xml.element("messages") do
+        messages.each do |msg|
+          xml.element("message", id: msg.id, from: msg.from, to: msg.to) do
+            xml.element("text") do
+              xml.text msg.body
+            end
+          end
+        end
       end
-      str.puts %(</messages>)
     end
-  end
-
-  private def append_attribute(io, name, value)
-    io << " " << name << "=\"" << XML.escape(value) << "\""
   end
 
   private def from_xml(response)
