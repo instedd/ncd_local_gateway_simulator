@@ -1,0 +1,6 @@
+host: host
+port: 80
+account: account
+channel_name: channel_name
+channel_password: channel_password
+sleep_seconds: 10

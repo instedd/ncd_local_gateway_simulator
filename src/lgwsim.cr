@@ -1,21 +1,14 @@
 require "./*"
 
-if ARGV.size < 6
-  abort "Usage: lgwsim host port account channel_name channel_password sleep_seconds"
-end
-
-host, port, account, channel_name, channel_password, sleep_seconds = ARGV
-port = port.to_i
-sleep_seconds = sleep_seconds.to_i
-
+config = Config.load
 state = State.load
 
 client = QSTClient.new(
-  host: host,
-  port: port.to_i,
-  account: account,
-  channel_name: channel_name,
-  channel_password: channel_password)
+  host: config.host,
+  port: config.port,
+  account: config.account,
+  channel_name: config.channel_name,
+  channel_password: config.channel_password)
 
 loop do
   # Get last id successfully received by the server
@@ -52,6 +45,6 @@ loop do
   end
 
   if messages.empty?
-    sleep sleep_seconds
+    sleep config.sleep_seconds
   end
 end
