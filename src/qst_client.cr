@@ -5,22 +5,22 @@ class QSTClient
   class Error < Exception; end
 
   def initialize(
-                 @host = "nuntium-stg.instedd.org",
-                 @port = 80,
-                 @tls = false,
+                 host = "nuntium-stg.instedd.org",
+                 port = 80,
+                 tls = false,
                  *,
                  account : String,
-                 @channel_name : String,
-                 @channel_password : String)
+                 channel_name : String,
+                 channel_password : String)
     @account = URI.escape(account)
+    @client = HTTP::Client.new(host: host, port: port, tls: tls)
+    @client.basic_auth(channel_name, channel_password)
   end
 
   def get_last_message_id
-    with_client do |client|
-      response = client.head("/#{@account}/qst/outgoing")
-      check_response(response, "get_last_message_id")
-      fetch_etag(response)
-    end
+    response = @client.head("/#{@account}/qst/outgoing")
+    check_response(response, "get_last_message_id")
+    fetch_etag(response)
   end
 
   def push(*, id : String, from : String, to : String, body : String)
@@ -35,30 +35,26 @@ class QSTClient
     return if messages.empty?
 
     xml = to_xml(messages)
-    with_client do |client|
-      response = client.post("/#{@account}/qst/incoming.xml",
-        body: xml,
-        headers: HTTP::Headers{"Content-Type" => "text/xml"})
-      check_response(response, "push")
-      fetch_etag(response)
-    end
+    response = @client.post("/#{@account}/qst/incoming.xml",
+      body: xml,
+      headers: HTTP::Headers{"Content-Type" => "text/xml"})
+    check_response(response, "push")
+    fetch_etag(response)
   end
 
   def pull(etag = nil)
     headers = HTTP::Headers.new
     headers["If-None-Match"] = etag if etag
 
-    with_client do |client|
-      response = client.get("/#{@account}/qst/outgoing.xml?max=100", headers: headers)
+    response = @client.get("/#{@account}/qst/outgoing.xml?max=100", headers: headers)
 
-      # Check Not-Modified
-      if response.status_code == 304
-        return [] of Message
-      end
-
-      check_response(response, "pull")
-      from_xml(response)
+    # Check Not-Modified
+    if response.status_code == 304
+      return [] of Message
     end
+
+    check_response(response, "pull")
+    from_xml(response)
   end
 
   private def to_xml(messages)
@@ -99,13 +95,6 @@ class QSTClient
     unless response.success?
       response.to_io(STDOUT)
       raise Error.new("Got #{response.status_code} in #{msg}")
-    end
-  end
-
-  private def with_client
-    HTTP::Client.new(host: @host, port: @port, tls: @tls) do |client|
-      client.basic_auth(@channel_name, @channel_password)
-      yield client
     end
   end
 end
