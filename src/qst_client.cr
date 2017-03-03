@@ -1,5 +1,4 @@
 require "http/client"
-require "xml"
 
 class Lgwsim::QSTClient
   class Error < Exception; end
@@ -34,7 +33,7 @@ class Lgwsim::QSTClient
   def push(messages : Array(Message))
     return if messages.empty?
 
-    xml = to_xml(messages)
+    xml = Message.many_to_xml(messages)
     response = @client.post("/#{@account}/qst/incoming.xml",
       body: xml,
       headers: HTTP::Headers{"Content-Type" => "text/xml"})
@@ -54,34 +53,7 @@ class Lgwsim::QSTClient
     end
 
     check_response(response, "pull")
-    from_xml(response)
-  end
-
-  private def to_xml(messages)
-    XML.build(indent: 2) do |xml|
-      xml.element("messages") do
-        messages.each do |msg|
-          xml.element("message", id: msg.id, from: msg.from, to: msg.to) do
-            xml.element("text") do
-              xml.text msg.body
-            end
-          end
-        end
-      end
-    end
-  end
-
-  private def from_xml(response)
-    doc = XML.parse(response.body)
-    messages = doc.first_element_child.not_nil!
-    messages.children.select(&.element?).map do |message|
-      Message.new(
-        id: message["id"].not_nil!,
-        from: message["from"].not_nil!,
-        to: message["to"].not_nil!,
-        body: message.children.find { |c| c.element? && c.name == "text" }.not_nil!.text.not_nil!
-      )
-    end
+    Message.many_from_xml(response.body)
   end
 
   private def fetch_etag(response)
