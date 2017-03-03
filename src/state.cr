@@ -1,6 +1,6 @@
 require "json"
 
-class State
+class Lgwsim::State
   FILENAME = "state.json"
 
   JSON.mapping(

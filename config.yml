@@ -4,3 +4,18 @@ account: account
 channel_name: channel_name
 channel_password: channel_password
 sleep_seconds: 10
+
+# How much time to wait between fetches from the QST server
+sleep_seconds: 10
+
+# Percent of respondents that never reply
+no_reply_percent: 0.2
+
+# Percent of respondents that have a delay in their reply
+delay_reply_percent: 0.2
+# Of the above, maximum time in seconds of that delay (0..max)
+delay_reply_max_seconds: 60
+
+# Percent of respondents that reply an incorrect answer
+incorrect_reply_percent: 0.2
+

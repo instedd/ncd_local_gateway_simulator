@@ -1,6 +1,6 @@
 require "json"
 
-record Message,
+record Lgwsim::Message,
   id : String,
   from : String,
   to : String,

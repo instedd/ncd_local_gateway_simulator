@@ -1,7 +1,7 @@
 require "http/client"
 require "xml"
 
-class QSTClient
+class Lgwsim::QSTClient
   class Error < Exception; end
 
   def initialize(
