@@ -47,7 +47,18 @@ class Lgwsim::Simulator
   end
 
   private def process_message(msg)
-    return if no_reply?
+    if @config.sticky_respondents && @state.sticky_respondents.includes?(msg.from)
+      # The respondent already replied, continue replying
+    else
+      # Check the change of not replying
+      return if no_reply?
+    end
+
+    # Store in sticky respondents if needed
+    if @config.sticky_respondents
+      @state.sticky_respondents << msg.from
+      @state.save
+    end
 
     body = if incorrect_reply?
              "(incorrect)"

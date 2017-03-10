@@ -6,12 +6,14 @@ class Lgwsim::State
   JSON.mapping(
     last_at_id: {type: String?, setter: false},
     last_ao_id: String?,
+    sticky_respondents: Set(String),
     messages: Array(Message),
   )
 
   def initialize
     @etag = nil
     @messages = [] of Message
+    @sticky_respondents = Set(String).new
   end
 
   def last_at_id=(etag : String?)

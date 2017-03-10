@@ -14,6 +14,7 @@ class Lgwsim::Config
     delay_reply_percent: Float64,
     delay_reply_max_seconds: Int32,
     incorrect_reply_percent: Float64,
+    sticky_respondents: Bool,
   )
 
   def self.load

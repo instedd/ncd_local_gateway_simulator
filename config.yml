@@ -19,3 +19,6 @@ delay_reply_max_seconds: 60
 # Percent of respondents that reply an incorrect answer
 incorrect_reply_percent: 0.2
 
+# If true, once a respondent replies, it will always reply
+sticky_respondents: true
+
