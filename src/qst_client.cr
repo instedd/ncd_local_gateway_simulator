@@ -17,7 +17,7 @@ class Lgwsim::QSTClient
   end
 
   def get_last_message_id
-    response = @client.head("/#{@account}/qst/outgoing")
+    response = @client.head("/#{@account}/qst/incoming")
     check_response(response, "get_last_message_id")
     fetch_etag(response)
   end
