@@ -1,3 +1,5 @@
+require "secure_random"
+
 class Lgwsim::Simulator
   def initialize
     @config = Config.load
@@ -67,7 +69,7 @@ class Lgwsim::Simulator
            end
 
     reply = Message.new(
-      id: `uuidgen`.chomp.downcase,
+      id: SecureRandom.uuid,
       from: msg.to,
       to: msg.from,
       body: body)
