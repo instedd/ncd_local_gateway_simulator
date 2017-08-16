@@ -49,7 +49,7 @@ class Lgwsim::Simulator
   end
 
   private def process_message(msg)
-    if @config.sticky_respondents && @state.sticky_respondents.includes?(msg.from)
+    if @config.sticky_respondents && @state.sticky_respondents.includes?(msg.to)
       # The respondent already replied, continue replying
     else
       # Check the change of not replying
@@ -58,7 +58,7 @@ class Lgwsim::Simulator
 
     # Store in sticky respondents if needed
     if @config.sticky_respondents
-      @state.sticky_respondents << msg.from
+      @state.sticky_respondents << msg.to
       @state.save
     end
 
