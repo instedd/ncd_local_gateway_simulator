@@ -49,6 +49,9 @@ class Lgwsim::Simulator
   end
 
   private def process_message(msg)
+    command = parse_command(msg.body)
+    return unless command
+
     if @config.sticky_respondents && @state.sticky_respondents.includes?(msg.to)
       # The respondent already replied, continue replying
     else
@@ -65,7 +68,7 @@ class Lgwsim::Simulator
     body = if incorrect_reply?
              "(incorrect)"
            else
-             msg.body.split(",").sample
+             command.sample
            end
 
     reply = Message.new(
@@ -82,6 +85,10 @@ class Lgwsim::Simulator
     else
       add_to_replies(reply)
     end
+  end
+
+  private def parse_command(message)
+    OneOfCommand.parse(message) || NumericCommand.parse(message)
   end
 
   private def send_outgoing_messages
@@ -115,5 +122,43 @@ class Lgwsim::Simulator
 
   private def delay_reply_seconds
     rand(0.0..@config.delay_reply_max_seconds.to_f)
+  end
+
+  class OneOfCommand
+    property choices
+
+    def initialize(@choices : Array(String))
+    end
+
+    def self.parse(message : String)
+      if message =~ /#oneof:(.*)/
+        choices = $~[1].split(',').map &.strip
+        OneOfCommand.new choices
+      end
+    end
+
+    def sample
+      @choices.sample
+    end
+  end
+
+  class NumericCommand
+    property min
+    property max
+
+    def initialize(@min : Int32, @max : Int32)
+    end
+
+    def self.parse(message : String)
+      if message =~ /#numeric:\s*(\d+)\s*-\s*(\d+)/
+        min = $~[1].to_i
+        max = $~[2].to_i
+        NumericCommand.new min, max
+      end
+    end
+
+    def sample
+      rand(@min..@max).to_s
+    end
   end
 end
