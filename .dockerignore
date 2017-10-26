@@ -1,0 +1,4 @@
+.git/
+bin/
+config.yml
+state.json
