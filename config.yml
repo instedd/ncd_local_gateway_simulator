@@ -4,6 +4,7 @@ account: account
 channel_name: channel_name
 channel_password: channel_password
 sleep_seconds: 10
+tls: false
 
 # How much time to wait between fetches from the QST server
 sleep_seconds: 10

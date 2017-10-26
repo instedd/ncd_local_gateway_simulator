@@ -8,6 +8,7 @@ class Lgwsim::Simulator
     @client = QSTClient.new(
       host: @config.host,
       port: @config.port,
+      tls: @config.tls,
       account: @config.account,
       channel_name: @config.channel_name,
       channel_password: @config.channel_password)
