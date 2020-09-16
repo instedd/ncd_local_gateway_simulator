@@ -1,4 +1,4 @@
-require "secure_random"
+require "uuid"
 
 class Lgwsim::Simulator
   def initialize
@@ -73,7 +73,7 @@ class Lgwsim::Simulator
            end
 
     reply = Message.new(
-      id: SecureRandom.uuid,
+      id: UUID.random.to_s,
       from: msg.to,
       to: msg.from,
       body: body)

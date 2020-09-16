@@ -8,6 +8,6 @@ targets:
   lgwsim:
     main: src/lgwsim.cr
 
-crystal: 0.20.3
+crystal: 0.35.1
 
 license: MIT

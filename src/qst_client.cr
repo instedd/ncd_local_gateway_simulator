@@ -11,7 +11,7 @@ class Lgwsim::QSTClient
                  account : String,
                  channel_name : String,
                  channel_password : String)
-    @account = URI.escape(account)
+    @account = URI.encode_www_form(account)
     @client = HTTP::Client.new(host: host, port: port, tls: tls)
     @client.basic_auth(channel_name, channel_password)
   end

@@ -29,7 +29,7 @@ class Lgwsim::Config
     @no_reply_percent = Config.float_env("NO_REPLY_PERCENT")
     @delay_reply_percent = Config.float_env("DELAY_REPLY_PERCENT")
     @delay_reply_max_seconds = Config.int_env("DELAY_REPLY_MAX_SECONDS")
-    @incorrect_reply_percent = Config.float_env("INCORRECT_REPLY_PERECENT")
+    @incorrect_reply_percent = Config.float_env("INCORRECT_REPLY_PERCENT")
     @sticky_respondents = Config.string_env("STICKY_RESPONDENTS") == "true"
   end
 
