@@ -36,7 +36,7 @@ $ curl -d "address=12341234" https://nuntium-stg.instedd.org/tickets.json
 4. Get the generated
 
 ```
-$ curl "https://nuntium-stg.instedd.org/tickets/5244.json?secret_key=32a2a8ed-****-****-****-************"
+$ curl "https://nuntium-stg.instedd.org/tickets/5244.json?secret_key="32a2a8ed-****-****-****-************""
 {"code":"5244","secret_key":"32a2a8ed-****-****-****-************","status":"complete","data":{"address":"12341234","channel":"my_qst_simulator","account":"manas","password":"Ji******","message":null}}
 ```
 
