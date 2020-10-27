@@ -13,6 +13,7 @@ class Lgwsim::Config
     sleep_seconds: Int32,
     no_reply_percent: Float64,
     delay_reply_percent: Float64,
+    delay_reply_min_seconds: Int32,
     delay_reply_max_seconds: Int32,
     incorrect_reply_percent: Float64,
     sticky_respondents: Bool,
@@ -28,6 +29,7 @@ class Lgwsim::Config
     @sleep_seconds = Config.int_env("SLEEP_SECONDS")
     @no_reply_percent = Config.float_env("NO_REPLY_PERCENT")
     @delay_reply_percent = Config.float_env("DELAY_REPLY_PERCENT")
+    @delay_reply_min_seconds = Config.int_env("DELAY_REPLY_MIN_SECONDS")
     @delay_reply_max_seconds = Config.int_env("DELAY_REPLY_MAX_SECONDS")
     @incorrect_reply_percent = Config.float_env("INCORRECT_REPLY_PERCENT")
     @sticky_respondents = Config.string_env("STICKY_RESPONDENTS") == "true"

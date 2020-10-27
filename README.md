@@ -64,7 +64,8 @@ The following environment variables controls other aspects of the behavior
 | `SLEEP_SECONDS` | 10 | How much time to wait between fetches from the QST server |
 | `NO_REPLY_PERCENT` | 0.2 | Percent of respondents that never reply |
 | `DELAY_REPLY_PERCENT` | 0.2 | Percent of respondents that have a delay in their reply |
-| `DELAY_REPLY_MAX_SECONDS` | 60 | Of the above, maximum time in seconds of that delay (0..max) |
+| `DELAY_REPLY_MIN_SECONDS` | 0 | Of the above, minimum time in seconds of that delay (min..max) |
+| `DELAY_REPLY_MAX_SECONDS` | 60 | Of the above, maximum time in seconds of that delay (min..max) |
 | `INCORRECT_REPLY_PERCENT` | 0.2 | Percent of respondents that reply an incorrect answer |
 | `STICKY_RESPONDENTS` | true | If true, once a respondent replies, it will always reply |
 

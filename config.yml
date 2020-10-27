@@ -14,7 +14,9 @@ no_reply_percent: 0.2
 
 # Percent of respondents that have a delay in their reply
 delay_reply_percent: 0.2
-# Of the above, maximum time in seconds of that delay (0..max)
+# Of the above, minimum time in seconds of that delay (min..max)
+delay_reply_min_seconds: 0
+# Of the above, maximum time in seconds of that delay (min..max)
 delay_reply_max_seconds: 60
 
 # Percent of respondents that reply an incorrect answer

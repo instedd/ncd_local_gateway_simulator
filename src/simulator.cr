@@ -122,7 +122,7 @@ class Lgwsim::Simulator
   end
 
   private def delay_reply_seconds
-    rand(0.0..@config.delay_reply_max_seconds.to_f)
+    rand(@config.delay_reply_min_seconds.to_f..@config.delay_reply_max_seconds.to_f)
   end
 
   class OneOfCommand
