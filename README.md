@@ -48,6 +48,9 @@ $ docker run --rm -it -e HOST=nuntium-stg.instedd.org -e ACCOUNT=manas -e CHANNE
 
 6. Start sending messages from the InSTEDD Application
 
+Example using variables: 
+```docker run --rm -it -e HOST=nuntium-stg.instedd.org -e ACCOUNT=email@email.com -e CHANNEL_NAME=my_channel -e CHANNEL_PASSWORD=password -e DELAY_REPLY_MIN_SECONDS=20 -e DELAY_REPLY_MAX_SECONDS=25 -e DELAY_REPLY_PERCENT=1 instedd/lgwsim```
+
 ## Behaviour
 
 For each message received, if a reply is sent, it will be according to de following rules
