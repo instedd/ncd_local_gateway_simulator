@@ -51,6 +51,13 @@ $ docker run --rm -it -e HOST=nuntium-stg.instedd.org -e ACCOUNT=manas -e CHANNE
 Example using variables: 
 ```docker run --rm -it -e HOST=nuntium-stg.instedd.org -e ACCOUNT=email@email.com -e CHANNEL_NAME=my_channel -e CHANNEL_PASSWORD=password -e DELAY_REPLY_MIN_SECONDS=20 -e DELAY_REPLY_MAX_SECONDS=25 -e DELAY_REPLY_PERCENT=1 instedd/lgwsim```
 
+## Usage in you local environment
+
+If you are running Nuntium in your local environment, follow the  steps above to create a QST server. Your `config.yml` should probably have these two parameters as follows:
+
+`host: web.nuntium.lvh.me`
+`port: 80`
+
 ## Behaviour
 
 For each message received, if a reply is sent, it will be according to de following rules
