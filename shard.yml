@@ -4,6 +4,12 @@ version: 0.1.0
 authors:
   - Ary Borenszweig <aborenszweig@manas.com.ar>
 
+dependencies:
+  yaml_mapping:
+    github: crystal-lang/yaml_mapping.cr
+  json_mapping:
+    github: crystal-lang/json_mapping.cr
+
 targets:
   lgwsim:
     main: src/lgwsim.cr

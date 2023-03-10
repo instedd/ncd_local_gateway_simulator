@@ -1,4 +1,5 @@
 require "yaml"
+require "yaml_mapping"
 
 class Lgwsim::Config
   FILENAME = "config.yml"

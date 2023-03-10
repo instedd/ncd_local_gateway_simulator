@@ -1,4 +1,5 @@
 require "json"
+require "json_mapping"
 require "xml"
 
 record Lgwsim::Message,
