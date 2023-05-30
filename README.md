@@ -67,6 +67,8 @@ For each message received, if a reply is sent, it will be according to de follow
 | `#oneof:A,B,C` | `A` or `B` or `C` |
 | `#numeric:N-M` | a number between `N` and `M` |
 
+For creating questionnaire steps tese rules should be in the SMS message, make usre the responses are configure accordingly
+
 The following environment variables controls other aspects of the behavior
 
 | Variable | Default | Description |
