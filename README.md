@@ -78,4 +78,4 @@ The following environment variables controls other aspects of the behavior
 | `DELAY_REPLY_MAX_SECONDS` | 60 | Of the above, maximum time in seconds of that delay (min..max) |
 | `INCORRECT_REPLY_PERCENT` | 0.2 | Percent of respondents that reply an incorrect answer |
 | `STICKY_RESPONDENTS` | true | If true, once a respondent replies, it will always reply |
-
+| `INCOMING_BATCH_SIZE` | 100 | How many incoming messages to fetch at once |

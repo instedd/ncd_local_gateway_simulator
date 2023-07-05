@@ -11,7 +11,8 @@ class Lgwsim::Simulator
       tls: @config.tls,
       account: @config.account,
       channel_name: @config.channel_name,
-      channel_password: @config.channel_password)
+      channel_password: @config.channel_password,
+      incoming_batch_size: @config.incoming_batch_size)
   end
 
   def run

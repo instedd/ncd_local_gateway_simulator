@@ -10,7 +10,8 @@ class Lgwsim::QSTClient
                  *,
                  account : String,
                  channel_name : String,
-                 channel_password : String)
+                 channel_password : String,
+                 @incoming_batch_size : Int32)
     @account = URI.encode_www_form(account)
     @client = HTTP::Client.new(host: host, port: port, tls: tls)
     @client.basic_auth(channel_name, channel_password)
@@ -45,7 +46,7 @@ class Lgwsim::QSTClient
     headers = HTTP::Headers.new
     headers["If-None-Match"] = etag if etag
 
-    response = @client.get("/#{@account}/qst/outgoing.xml?max=100", headers: headers)
+    response = @client.get("/#{@account}/qst/outgoing.xml?max=#{@incoming_batch_size.to_s}", headers: headers)
 
     # Check Not-Modified
     if response.status_code == 304
