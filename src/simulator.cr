@@ -29,9 +29,7 @@ class Lgwsim::Simulator
 
       send_outgoing_messages
 
-      if messages.empty?
-        sleep @config.sleep_seconds
-      end
+      sleep @config.sleep_seconds
     end
   end
 

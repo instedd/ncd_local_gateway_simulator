@@ -71,7 +71,7 @@ The following environment variables controls other aspects of the behavior
 
 | Variable | Default | Description |
 |-|-|-|
-| `SLEEP_SECONDS` | 10 | How much time to wait between fetches from the QST server |
+| `SLEEP_SECONDS` | 10 | How much time to wait between fetches from the QST server (Nuntium will mark the channel as down if it's not polled every 2 minutes) |
 | `NO_REPLY_PERCENT` | 0.2 | Percent of respondents that never reply |
 | `DELAY_REPLY_PERCENT` | 0.2 | Percent of respondents that have a delay in their reply |
 | `DELAY_REPLY_MIN_SECONDS` | 0 | Of the above, minimum time in seconds of that delay (min..max) |
