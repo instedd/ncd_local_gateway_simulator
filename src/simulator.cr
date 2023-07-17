@@ -11,7 +11,8 @@ class Lgwsim::Simulator
       tls: @config.tls,
       account: @config.account,
       channel_name: @config.channel_name,
-      channel_password: @config.channel_password)
+      channel_password: @config.channel_password,
+      incoming_batch_size: @config.incoming_batch_size)
   end
 
   def run
@@ -29,9 +30,7 @@ class Lgwsim::Simulator
 
       send_outgoing_messages
 
-      if messages.empty?
-        sleep @config.sleep_seconds
-      end
+      sleep @config.sleep_seconds
     end
   end
 

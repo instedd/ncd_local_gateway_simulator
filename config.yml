@@ -25,3 +25,5 @@ incorrect_reply_percent: 0.2
 # If true, once a respondent replies, it will always reply
 sticky_respondents: true
 
+# How many incoming messages to fetch at once
+incoming_batch_size: 100

@@ -18,6 +18,7 @@ class Lgwsim::Config
     delay_reply_max_seconds: Int32,
     incorrect_reply_percent: Float64,
     sticky_respondents: Bool,
+    incoming_batch_size: Int32,
   )
 
   def initialize
@@ -34,6 +35,7 @@ class Lgwsim::Config
     @delay_reply_max_seconds = Config.int_env("DELAY_REPLY_MAX_SECONDS")
     @incorrect_reply_percent = Config.float_env("INCORRECT_REPLY_PERCENT")
     @sticky_respondents = Config.string_env("STICKY_RESPONDENTS") == "true"
+    @incoming_batch_size = Config.int_env("INCOMING_BATCH_SIZE")
   end
 
   protected def self.string_env(var_name)
