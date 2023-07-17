@@ -46,7 +46,7 @@ class Lgwsim::QSTClient
     headers = HTTP::Headers.new
     headers["If-None-Match"] = etag if etag
 
-    response = @client.get("/#{@account}/qst/outgoing.xml?max=#{@incoming_batch_size.to_s}", headers: headers)
+    response = @client.get("/#{@account}/qst/outgoing.xml?max=#{@incoming_batch_size}", headers: headers)
 
     # Check Not-Modified
     if response.status_code == 304
